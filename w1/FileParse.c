@@ -2,39 +2,35 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FILE_IN_NAME "vanban.txt"
-#define FILE_OUT_NAME "phantich.txt"
-#define DONT_CARE_FILE "stopw.txt"
-#define MAX_NUMBER 1000
-
+#define FILE_IN_NAME "vanban.txt"    // source file name
+#define FILE_OUT_NAME "phantich.txt" // output file name
+#define DONT_CARE_FILE "stopw.txt"	 // dont care words list
+#define MAX_NUMBER 1000				 // assume max number of words in the source file
+//data type to save word and its position in the source file
 typedef struct w{
 	char word[30];
 	int index;
 } wtype;
 
-
+//main program
 int main(int argc, char const *argv[])
 {
 	int i;
 	int numberOfWord, numberDontCare;
 	
-	wtype data[MAX_NUMBER];
-	wtype dontCareWords[MAX_NUMBER];
+	//inital array to save data
+	wtype data[MAX_NUMBER];				//words in file
+	wtype dontCareWords[MAX_NUMBER];	//words in dont care list
 
+	//read data in file and save to array
 	numberOfWord = ReadFile(FILE_IN_NAME, data);
 	numberDontCare = ReadFile(DONT_CARE_FILE,dontCareWords);
 	
-
+	//sort words in array
 	ReIndex(data, numberOfWord);
-
 	ReIndex(dontCareWords,numberDontCare);
-	for ( i = 0; i < numberDontCare; ++i)
-	{
-		puts("----");
-		puts(dontCareWords[i].word);
-	}
-	printf("numberDontCare = %d\n",numberDontCare);
 
+	//If there are some words in the source file, write data to the destination file
 	if(numberOfWord != 0){
 		WriteFile(FILE_OUT_NAME, data, numberOfWord, dontCareWords,numberDontCare);
 	}
@@ -61,7 +57,6 @@ int ReadFile(char* fileName, wtype* data){
 		//open successly, parse input file and save data to array
 		return ParseFile(file, data, &LineNo); 
 	}
-
 }
 
 /*
@@ -74,7 +69,7 @@ int ReadFile(char* fileName, wtype* data){
 int WriteFile(char* fileName, wtype* data, int total, wtype* dontCarelist, int numberDontCare){
 	FILE *file;  
 	int currentIndex = 0;    // the current word index
-	int nextIndex;		 // few next word index
+	int nextIndex;		     // few next words index
 
 
 	// open file to write data
@@ -87,7 +82,6 @@ int WriteFile(char* fileName, wtype* data, int total, wtype* dontCarelist, int n
 	//write data from a sorted list to file according to the instuction
 	while(currentIndex < total){
 		if(IsDontCare(data[currentIndex], dontCarelist,numberDontCare) == 0){
-			puts("Here!");	
 			//print current list item data
 			fprintf(file, "%s\t",data[currentIndex].word);
 			fprintf(file, "%d",data[currentIndex].index);
@@ -180,7 +174,7 @@ int ParseFile(FILE *file, wtype* data, int* lineNo){
 
 /*
 * generic compare funtion for two wType element
-* used for  bsearch and qsort funtion
+* used for bsearch and qsort funtion
 * return -1/0/1 if a < b/a = b/ a >b
 * @param:
 *	a: the first element
@@ -193,7 +187,7 @@ int myCompare(const void *a, const void * b){
 }
 
 /*
-* Sort the array, uses qsort
+* Sort the array, use qsort
 * @param: 
 *	data: array data
 *   number: number of items in the array
@@ -203,7 +197,7 @@ int ReIndex(wtype* data, int number){
 }
 
 /*
-*check if a word in the don't care list
+*check if a word is in the don't care list
 *use bsearch.
 *@param:
 *	data: array data
@@ -218,6 +212,3 @@ int IsDontCare(wtype element, wtype* list, int number){
 		return 1;
 	return 0;
 }
-
-
-
