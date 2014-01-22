@@ -5,7 +5,7 @@
 #define FILE_IN_NAME "vanban.txt"    // source file name
 #define FILE_OUT_NAME "phantich.txt" // output file name
 #define DONT_CARE_FILE "stopw.txt"	 // dont care words list
-#define MAX_NUMBER 1000				 // assume max number of words in the source file
+#define MAX_NUMBER 1000000			 // assume max number of words in the source file
 //data type to save word and its position in the source file
 typedef struct w{
 	char word[30];
@@ -19,9 +19,12 @@ int main(int argc, char const *argv[])
 	int numberOfWord, numberDontCare;
 	
 	//inital array to save data
-	wtype data[MAX_NUMBER];				//words in file
-	wtype dontCareWords[MAX_NUMBER];	//words in dont care list
+	wtype* data;//[MAX_NUMBER];				//words in file
+	wtype* dontCareWords;//[MAX_NUMBER];	//words in dont care list
 
+	//malloc memory to huge data
+	data = (wtype*)malloc(MAX_NUMBER*sizeof(wtype));
+	dontCareWords = (wtype*)malloc(MAX_NUMBER*sizeof(wtype));
 	//read data in file and save to array
 	numberOfWord = ReadFile(FILE_IN_NAME, data);
 	numberDontCare = ReadFile(DONT_CARE_FILE,dontCareWords);
