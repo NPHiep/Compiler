@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FILE_IN_NAME "vanban.txt"    // source file name
+#define FILE_IN_NAME "2000010a.txt"    // source file name
 #define FILE_OUT_NAME "phantich.txt" // output file name
 #define DONT_CARE_FILE "stopw.txt"	 // dont care words list
 #define MAX_NUMBER 1000000			 // assume max number of words in the source file
@@ -37,6 +37,9 @@ int main(int argc, char const *argv[])
 	if(numberOfWord != 0){
 		WriteFile(FILE_OUT_NAME, data, numberOfWord, dontCareWords,numberDontCare);
 	}
+	//free data after used
+	free(data);
+	free(dontCareWords);
 	return 0;
 }
 
