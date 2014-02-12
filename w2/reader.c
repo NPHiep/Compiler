@@ -12,7 +12,7 @@ int lineNo, colNo;
 int currentChar;
 
 int readChar(void) {
-  currentChar = getc(inputStream);
+  currentChar = fgetc(inputStream);
   colNo ++;
   if (currentChar == '\n') {
     lineNo ++;
