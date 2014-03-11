@@ -36,7 +36,7 @@ void skipComment() {
 }
 
 Token* readIdentKeyword(void) {
-  int i = 0;
+    int i = 0;
     Token *token = makeToken(TK_IDENT, lineNo, colNo);
     char *str = token->string;
     while (charCodes[currentChar] == CHAR_LETTER || charCodes[currentChar] == CHAR_DIGIT) {
@@ -58,10 +58,10 @@ Token* readIdentKeyword(void) {
 }
 
 Token* readNumber(void) {
-   int i = 0;
+    int i = 0;
     Token *token = makeToken(TK_NUMBER, lineNo, colNo);
     char *str = token->string;
-    while (i < MAX_IDENT_LEN && charCodes[currentChar] == CHAR_DIGIT) {
+    while (i < MAX_IDENT_LEN && (charCodes[currentChar] == CHAR_DIGIT || charCodes[currentChar] == CHAR_PERIOD )) {
         str[i++] = currentChar;
         readChar();
     }
@@ -221,7 +221,6 @@ Token* getToken(void) {
 }
 
 /******************************************************************/
-
 void printToken(Token *token) {
 
   printf("%d-%d:", token->lineNo, token->colNo);
@@ -238,6 +237,7 @@ void printToken(Token *token) {
   case KW_TYPE: printf("KW_TYPE\n"); break;
   case KW_VAR: printf("KW_VAR\n"); break;
   case KW_INTEGER: printf("KW_INTEGER\n"); break;
+  case KW_FLOAT: printf("KW_FLOAT\n"); break;
   case KW_CHAR: printf("KW_CHAR\n"); break;
   case KW_ARRAY: printf("KW_ARRAY\n"); break;
   case KW_OF: printf("KW_OF\n"); break;
